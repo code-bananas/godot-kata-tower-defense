@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdqifv5b8yc6l"]
+
+[ext_resource type="Script" path="res://Prefabs/Missle/Missle.gd" id="1_tk7st"]
+[ext_resource type="Texture2D" uid="uid://cyyfklm4qk56p" path="res://Assets/Missile_1_Flying_003.png" id="2_35rky"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8g7dp"]
+radius = 15.0
+height = 124.0
+
+[node name="Missle" type="Area2D"]
+rotation = 1.5708
+script = ExtResource("1_tk7st")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_8g7dp")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_35rky")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

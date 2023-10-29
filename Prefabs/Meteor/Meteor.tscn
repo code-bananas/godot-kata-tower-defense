@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://uq0mkk58ovng"]
+
+[ext_resource type="Script" path="res://Prefabs/Meteor/Meteor.gd" id="1_f82ks"]
+[ext_resource type="Texture2D" uid="uid://611osu141bpc" path="res://Assets/Meteor_05.png" id="2_nx8la"]
+[ext_resource type="PackedScene" uid="uid://cfidb60oi3nl" path="res://Components/HealthBar/HealthBar.tscn" id="3_1ni1q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bu1up"]
+radius = 54.231
+
+[node name="Meteor" type="CharacterBody2D" node_paths=PackedStringArray("healthBar") groups=["destroy_on_game_over", "enemy"]]
+script = ExtResource("1_f82ks")
+healthBar = NodePath("HealthBar")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_nx8la")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_bu1up")
+
+[node name="HealthBar" parent="." instance=ExtResource("3_1ni1q")]
+offset_left = -57.0
+offset_top = 60.0
+offset_right = 59.0
+offset_bottom = 87.0

@@ -1,0 +1,100 @@
+[gd_scene load_steps=10 format=3 uid="uid://dtbmhcgj5weq"]
+
+[ext_resource type="Texture2D" uid="uid://dk6tj216pwpd" path="res://Assets/Bomb_2_Idle_009.png" id="1_2jj85"]
+[ext_resource type="Script" path="res://Scripts/Game.gd" id="1_7acgp"]
+[ext_resource type="Script" path="res://Scripts/Station.gd" id="1_wa1c0"]
+[ext_resource type="Script" path="res://Scripts/Spawner.gd" id="3_55yjr"]
+[ext_resource type="PackedScene" uid="uid://uq0mkk58ovng" path="res://Prefabs/Meteor/Meteor.tscn" id="4_celhu"]
+[ext_resource type="PackedScene" uid="uid://cfidb60oi3nl" path="res://Components/HealthBar/HealthBar.tscn" id="6_3wjm7"]
+[ext_resource type="Script" path="res://Scripts/Game Barrier.gd" id="7_mq3gj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dbxbc"]
+radius = 140.289
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wid6x"]
+size = Vector2(210, 668)
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_7acgp")
+
+[node name="Station" type="Area2D" parent="." node_paths=PackedStringArray("healthBar") groups=["destroy_on_game_over"]]
+position = Vector2(150, 357)
+scale = Vector2(0.75, 0.75)
+collision_layer = 2
+script = ExtResource("1_wa1c0")
+healthBar = NodePath("HealthBar")
+
+[node name="Sprite" type="Sprite2D" parent="Station"]
+texture = ExtResource("1_2jj85")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Station"]
+shape = SubResource("CircleShape2D_dbxbc")
+
+[node name="Timer" type="Timer" parent="Station"]
+autostart = true
+
+[node name="HealthBar" parent="Station" instance=ExtResource("6_3wjm7")]
+offset_left = -54.6667
+offset_top = 148.0
+offset_right = 61.3333
+offset_bottom = 175.0
+max_health = 100
+auto_hide = false
+
+[node name="Spawner" type="Marker2D" parent="." groups=["destroy_on_game_over"]]
+position = Vector2(1285, 358)
+script = ExtResource("3_55yjr")
+enemies = Array[PackedScene]([ExtResource("4_celhu")])
+
+[node name="Game Barrier" type="Area2D" parent="." node_paths=PackedStringArray("enemiesAllowedLabel")]
+position = Vector2(-198, 8)
+script = ExtResource("7_mq3gj")
+enemiesAllowedLabel = NodePath("../CanvasLayer/EnemyCountLabel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game Barrier"]
+position = Vector2(-95, 324)
+shape = SubResource("RectangleShape2D_wid6x")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="EnemyCountLabel" type="Label" parent="CanvasLayer"]
+offset_left = 4.0
+offset_top = 5.0
+offset_right = 153.0
+offset_bottom = 31.0
+text = "Enemies Allowed: 0"
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 953.0
+offset_top = 5.0
+offset_right = 1014.0
+offset_bottom = 31.0
+text = "Score: 0"
+
+[node name="GameOverLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 498.0
+offset_top = 312.0
+offset_right = 674.0
+offset_bottom = 348.0
+theme_override_font_sizes/font_size = 32
+text = "Game Over!"
+
+[node name="Meteor" parent="." instance=ExtResource("4_celhu")]
+position = Vector2(404, 108)
+speed = 5
+
+[node name="Meteor2" parent="." instance=ExtResource("4_celhu")]
+position = Vector2(758, 555)
+speed = 5
+
+[node name="Meteor3" parent="." instance=ExtResource("4_celhu")]
+position = Vector2(1019, 146)
+speed = 5
+
+[connection signal="body_entered" from="Station" to="Station" method="_on_body_entered"]
+[connection signal="timeout" from="Station/Timer" to="Station" method="_on_timer_timeout"]
+[connection signal="enemy_destroyed" from="Spawner" to="." method="_on_enemy_destroyed"]
+[connection signal="body_entered" from="Game Barrier" to="Game Barrier" method="_on_body_entered"]

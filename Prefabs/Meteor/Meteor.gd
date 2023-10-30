@@ -4,9 +4,14 @@ extends CharacterBody2D
 @export var healthBar:ProgressBar
 @export var impactDamage:int = 10
 
+@onready var explosion_sound:AudioStreamPlayer2D = $ExplosionSound
+
+var _is_destroyed:bool = false
+
 signal destroyed()
 
 func _physics_process(delta):
+	#if _is_destroyed == true: return
 	velocity = Vector2(-speed, 0)
 	move_and_slide()
 	
@@ -27,5 +32,12 @@ func take_damage(amount):
 			destroy()
 			
 func destroy():
+	#explosion_sound.finished.connect(_removeScene)
+	#_is_destroyed = true
+	#visible = false
+	#explosion_sound.play()
 	destroyed.emit()
+	_removeScene()
+
+func _removeScene(): #TODO: Replace with lambda
 	queue_free()

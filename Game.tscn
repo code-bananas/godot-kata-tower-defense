@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dtbmhcgj5weq"]
+[gd_scene load_steps=14 format=3 uid="uid://dtbmhcgj5weq"]
 
 [ext_resource type="Texture2D" uid="uid://dk6tj216pwpd" path="res://Assets/Bomb_2_Idle_009.png" id="1_2jj85"]
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_7acgp"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Scripts/Game Barrier.gd" id="7_mq3gj"]
 [ext_resource type="Script" path="res://Prefabs/Spawner/Spawner.gd" id="8_poo76"]
 [ext_resource type="AudioStream" uid="uid://dvlnjmyrjvcbu" path="res://Assets/Flying Through Space.wav" id="9_k3mlg"]
+[ext_resource type="AudioStream" uid="uid://ntuugbninho3" path="res://Assets/error-2-126514.mp3" id="11_xf073"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dbxbc"]
 radius = 140.289
@@ -105,6 +106,9 @@ enemies = Array[PackedScene]([ExtResource("4_celhu")])
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_k3mlg")
 autoplay = true
+
+[node name="GameOverSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_xf073")
 
 [connection signal="body_entered" from="Station" to="Station" method="_on_body_entered"]
 [connection signal="timeout" from="Station/Timer" to="Station" method="_on_timer_timeout"]

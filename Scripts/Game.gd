@@ -5,6 +5,8 @@ extends Node2D
 @onready var game_over_label:Label = %GameOverLabel
 @export var enemys_allowed:int = 3
 
+@onready var game_over_sound:AudioStreamPlayer2D = $GameOverSound
+
 var points:int = 0
 
 func _ready():
@@ -31,6 +33,7 @@ func updateEnemyCounted():
 
 func _game_over():
 	game_over_label.visible = true
+	game_over_sound.play()
 	
 	var nodes_to_destroy = get_tree().get_nodes_in_group("destroy_on_game_over")
 	for node in nodes_to_destroy:

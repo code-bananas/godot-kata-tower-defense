@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://doconqjsi6b3t"]
+
+[ext_resource type="Script" path="res://Prefabs/Spawner/Spawner.gd" id="1_vkrjl"]
+[ext_resource type="PackedScene" uid="uid://uq0mkk58ovng" path="res://Prefabs/Meteor/Meteor.tscn" id="2_gfe0i"]
+
+[node name="Spawner" type="Marker2D" groups=["destroy_on_game_over"]]
+position = Vector2(1285, 358)
+script = ExtResource("1_vkrjl")
+enemies = Array[PackedScene]([ExtResource("2_gfe0i")])
